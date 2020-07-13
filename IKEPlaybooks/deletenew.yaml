@@ -1,0 +1,38 @@
+- name: Delete new config
+  hosts: routers
+  connection: local
+  gather_facts: no
+  vars:
+    #name of old profile
+    ikev2_profile_name: IPSEC
+  vars_prompt:
+  - name: "ansible_user"
+    prompt: "Username"
+    private: no
+  - name: "ansible_ssh_pass"
+    prompt: "Password"
+
+  tasks:
+
+  - include: tasks/gatherinterfaces.yaml
+  - include: tasks/tunnelprofile.yaml
+
+  - name: IOS | Delete IKEv2
+    ios_config:
+      lines:
+        - no crypto ipsec profile IKEv2-RSA
+        - no crypto ipsec transform-set IKEv2-RSA
+        - no crypto ikev2 profile IKEv2-RSA
+        - no crypto ikev2 policy IKEv2-RSA
+        - no crypto ikev2 proposal IKEv2-RSA
+
+  - name: IOS | Removing trustpoint
+    cli_command:
+      command: "{{ item }}"
+      prompt:
+        - "Are you sure you want to do this?"
+      answer:
+        - "Yes"
+    loop:
+      - conf t
+      - no crypto pki trustpoint {{ trustpoint }}

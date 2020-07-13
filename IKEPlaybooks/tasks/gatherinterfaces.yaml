@@ -1,0 +1,3 @@
+- name: IOS | Gathering tunnel interfaces
+  ios_facts:
+    gather_subset: interfaces

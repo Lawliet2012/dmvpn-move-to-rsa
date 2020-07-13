@@ -1,0 +1,3 @@
+- name: IOS | Gathering hostname
+  ios_facts:
+    gather_subset: config

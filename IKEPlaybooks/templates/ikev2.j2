@@ -1,0 +1,23 @@
+crypto ikev2 proposal {{ ikev2_profile_name }}
+ encryption {{ ikev2_proposal_encryption }}
+ integrity {{ ikev2_proposal_integrity }}
+ group {{ ikev2_proposal_dhgroup }}
+
+crypto ikev2 policy {{ ikev2_profile_name }}
+ proposal {{ ikev2_profile_name }}
+
+crypto ikev2 profile {{ ikev2_profile_name }}
+ match identity remote fqdn domain {{ domain }}
+ identity local fqdn {{ ansible_net_hostname }}.{{ domain }}
+ authentication remote rsa-sig
+ authentication local rsa-sig
+ pki trustpoint {{ trustpoint }}
+
+crypto ipsec transform-set {{ ikev2_profile_name }} {{ ipsec_tset_encryption }} {{ ipsec_tset_hash }}
+ mode {{ ipsec_tset_mode }}
+
+crypto ipsec profile {{ ikev2_profile_name }}
+ set transform-set {{ ikev2_profile_name }} 
+ set ikev2-profile {{ ikev2_profile_name }}
+
+no crypto ikev2 http-url cert

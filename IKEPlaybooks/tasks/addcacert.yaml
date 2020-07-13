@@ -1,0 +1,32 @@
+- name: IOS | Generate key for trustpoint
+  ios_config:
+    lines: crypto key generate rsa modulus 2048 label {{ trustpoint }}
+
+- name: IOS | Creating trustpoint
+  ios_config:
+    src: "../templates/trustpoint.j2"
+
+- name: IOS | Check CA cert \#1
+  ios_command:
+    commands: 
+      - show crypto pki certificates {{ trustpoint }} | section CA Cert
+  register: cacert
+
+- name: IOS | Adding CA cert
+  cli_command:
+    command: "{{ item }}"
+    prompt:
+      - "Do you accept this certificate?"
+    answer:
+      - "Yes"
+  loop:
+    - conf t
+    - crypto pki authenticate {{ trustpoint }}
+  when: "'' in cacert.stdout"
+
+- name: IOS | Check CA cert \#2
+  ios_command:
+    commands: 
+      - show crypto pki certificate {{ trustpoint }}
+    wait_for: 
+      - result[0] contains "cn=Root Test CA"

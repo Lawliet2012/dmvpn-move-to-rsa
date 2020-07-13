@@ -1,0 +1,29 @@
+- name: IOS | Check enrolled cert \#1
+  ios_command:
+    commands: 
+      - show crypto pki certificate {{ trustpoint }} | include hostname={{ ansible_net_hostname }}.{{ domain }}
+  register: enrolledcert
+
+- name: IOS | Enroll Cert
+  cli_command:
+    command: "{{ item }}"
+    check_all: yes
+    prompt:
+      - "Password"
+      - "Re-enter"
+      - "Request certificate from CA?"
+    answer:
+      - "{{ cakey }}"
+      - "{{ cakey }}"
+      - "yes"
+  loop:
+    - conf t
+    - crypto pki enroll {{ trustpoint }}
+  when: "'' in enrolledcert.stdout"
+
+- name: IOS | Check enrolled cert \#2
+  ios_command:
+    commands: 
+     - show crypto pki certificate {{ trustpoint }}
+    wait_for: 
+      - result[0] contains "hostname={{ ansible_net_hostname }}.{{ domain }}"

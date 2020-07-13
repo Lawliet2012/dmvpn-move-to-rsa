@@ -1,0 +1,17 @@
+- name: Configuration IKEv2 profiles
+  hosts: routers
+  connection: local
+  gather_facts: no
+  vars_prompt:
+  - name: "ansible_user"
+    prompt: "Username"
+    private: no
+  - name: "ansible_ssh_pass"
+    prompt: "Password"
+
+  tasks:
+
+  - include: tasks/gatherinterfaces.yaml
+  - include: tasks/tunnelprofile.yaml
+  
+

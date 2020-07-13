@@ -1,0 +1,30 @@
+  
+all:
+  children:
+    routers:
+      vars:
+        ansible_connection: network_cli
+        ansible_network_os: ios
+        trustpoint: exampleca
+        domain: example.local
+        cakey: <key to enroll certs>
+        ndesurl: <url to ndes>
+        ikev2_profile_name: IKEv2-RSA
+        ikev2_proposal_encryption: des
+        ikev2_proposal_integrity: sha1
+        ikev2_proposal_dhgroup: 1
+        ipsec_tset_encryption: esp-des
+        ipsec_tset_hash: esp-sha-hmac
+        ipsec_tset_mode: transport
+
+      hosts:
+        hub:
+          ansible_host: 192.168.164.160
+        spoke1:
+          ansible_host: 192.168.164.161
+        spoke2:
+          ansible_host: 192.168.164.162
+        spoke3:
+          ansible_host: 192.168.164.163
+        spoke4:
+          ansible_host: 192.168.164.164

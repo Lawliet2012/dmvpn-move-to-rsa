@@ -1,0 +1,19 @@
+- name: Rollback to old tunnel protection configuration
+  hosts: hub
+  connection: local
+  gather_facts: no
+  vars_prompt:
+  - name: "ansible_user"
+    prompt: "Username"
+    private: no
+  - name: "ansible_ssh_pass"
+    prompt: "Password"
+
+  tasks:
+
+    - name: IOS | Rollback
+      ios_command:
+        commands:
+          - command: 'configure replace flash:oldtunprofile.cfg'
+            prompt: 'configuration. Enter Y if you are sure you want to proceed'
+            answer: "Y"

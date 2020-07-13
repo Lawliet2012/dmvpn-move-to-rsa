@@ -1,0 +1,60 @@
+testbed:
+  name: sdvor
+  credentials:
+    default:
+      username: admin
+      password: P@ssw0rd
+      enable_password: P@ssw0rd
+
+devices:
+  hub:
+    type: router
+    os: ios
+    platform: csr1000v
+    connections:
+      ssh:
+        protocol: ssh
+        ip: 192.168.164.160
+        port: 22
+
+
+  spoke1:
+    type: router
+    os: ios
+    platform: iol
+    connections:
+      ssh:
+        protocol: ssh
+        ip: 192.168.164.161
+        port: 22
+
+  spoke2:
+    type: router
+    os: ios
+    platform: iol
+    connections:
+      ssh:
+        protocol: ssh
+        ip: 192.168.164.162
+        port: 22
+
+
+  spoke3:
+    type: router
+    os: ios
+    platform: iol
+    connections:
+      ssh:
+        protocol: ssh
+        ip: 192.168.164.163
+        port: 22
+
+  spoke4:
+    type: router
+    os: ios
+    platform: iol
+    connections:
+      ssh:
+        protocol: ssh
+        ip: 192.168.164.164
+        port: 22

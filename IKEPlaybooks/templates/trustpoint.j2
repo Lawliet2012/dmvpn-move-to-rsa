@@ -1,0 +1,10 @@
+crypto pki trustpoint {{ trustpoint }}
+ enrollment retry count 3
+ enrollment retry period 5
+ enrollment mode ra
+ enrollment url {{ ndesurl }}
+ fqdn {{ ansible_net_hostname }}.{{ domain }}
+ serial-number none
+ ip-address none
+ revocation-check none
+ rsakeypair {{ trustpoint }}

@@ -1,0 +1,6 @@
+- name: IOS | Configuring tunnel protection profile
+  ios_config:
+    lines: tunnel protection ipsec profile {{ ikev2_profile_name }}
+    parents: interface {{item.key}}
+  loop: "{{ ansible_net_interfaces | dict2items }}"
+  when: '"Tunnel" in item.key'
