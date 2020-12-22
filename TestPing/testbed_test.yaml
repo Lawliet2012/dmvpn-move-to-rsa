@@ -1,5 +1,5 @@
 testbed:
-  name: sdvor
+  name: test
   credentials:
     default:
       username: admin
